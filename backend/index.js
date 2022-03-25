@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-// import pinsRoutes from './routes/pins.js';
-
+import pinsRoutes from './routes/pins.js';
+// const pinsRoutes = require('./routes/pins.js');
 const app = express();
 dotenv.config();
 
