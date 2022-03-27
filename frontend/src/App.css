@@ -1,4 +1,25 @@
+.map {
+    width: 100%;
+    height: 100%;
+}
+
 .map-pin {
     color: red;
     font-size: 2vw;
+}
+
+.popup {
+    /* border: 2px solid blue; */
+    width: 20%;
+    height: 20%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid red; */
+}
+
+.star {
+    color: orange;
 }
