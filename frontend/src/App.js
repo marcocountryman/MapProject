@@ -36,9 +36,14 @@ function App() {
       mapStyle="mapbox://styles/mapbox/streets-v9"
       mapboxAccessToken={process.env.REACT_APP_MAPBOX}
       >
-      <Marker longitude={-73.985428} latitude={40.748817} anchor="bottom" >
-        <FaMapPin className= "map-pin"/>
-      </Marker>
+        {pins.map( (pin, i) => {
+          return (
+              <Marker longitude={pin.long} latitude={pin.lat} anchor="bottom" >
+                  <FaMapPin className= "map-pin"/>
+              </Marker>
+          )
+        })}
+
        {/* {showPopup && (
       <Popup longitude={-73.985428} latitude={40.748817}
         anchor="left"
