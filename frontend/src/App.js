@@ -9,6 +9,7 @@ import { format } from "timeago.js";
 function App() {
   const [ showPopup, setShowPopup ] = useState(true);
   const [ pins, setPins ] = useState([]);
+  const [ currentLocationId, setCurrentLocationId ] = useState(null);
 
   useEffect( () => {
     const getPins = async () => {
@@ -22,6 +23,9 @@ function App() {
     getPins();
   }, [])
 
+  const handlePinClick = (id) => {
+    setCurrentLocationId(id);
+  }
   return (
     <div className="App">
       <Map
@@ -33,38 +37,37 @@ function App() {
       style={{width: "100vw", height: "100vh"}}
       mapStyle="mapbox://styles/mapbox/streets-v9"
       mapboxAccessToken={process.env.REACT_APP_MAPBOX}
+      
       >
         {pins.map( (pin) => {
           return (
             <>
               <Marker key = {pin._id} longitude={pin.long} latitude={pin.lat} anchor="bottom" >
-                  <FaMapPin className= "map-pin"/>
+                  <FaMapPin className= "map-pin" onClick = {() => handlePinClick(pin._id)}/>
               </Marker>
-              
-              <Popup key = {pin._id} longitude={pin.long} latitude={pin.lat}
-                anchor="left"
-                className = "popup"
-              >
-                <div className = "card">
-                  <span>{pin.title}</span>
-                  <span>{pin.desc}</span>
-                <div className='stars'>
-                  <span>Rating: </span>
-                  <FaStar className = "star"/>
-                  <FaStar className = "star"/>
-                  <FaStar className = "star"/>
-                  <FaStar className = "star"/>
-                  <FaStar className = "star"/>
-                </div>
-                <span>Uploaded by {pin.username} at {format(pin.createdAt)}</span>
-                </div>
-              </Popup>
+              {pin._id === currentLocationId && (
+                <Popup key = {pin._id} longitude={pin.long} latitude={pin.lat}
+                  anchor="left"
+                  className = "popup"
+                >
+                  <div className = "card">
+                    <span>{pin.title}</span>
+                    <span>{pin.desc}</span>
+                  <div className='stars'>
+                    <span>Rating: </span>
+                    <FaStar className = "star"/>
+                    <FaStar className = "star"/>
+                    <FaStar className = "star"/>
+                    <FaStar className = "star"/>
+                    <FaStar className = "star"/>
+                  </div>
+                  <span>Uploaded by {pin.username} at {format(pin.createdAt)}</span>
+                  </div>
+                </Popup>
+              )}
             </>
         )})}
-
-
-      
-    </Map>
+        </Map>
     </div>
   );
 }
