@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { FaMapPin, FaStar } from 'react-icons/fa';
 import './App.css';
 import axios from 'axios';
+import { format } from "timeago.js";
 
 function App() {
   const [ showPopup, setShowPopup ] = useState(true);
@@ -21,9 +22,6 @@ function App() {
     getPins();
   }, [])
 
-
-
-
   return (
     <div className="App">
       <Map
@@ -36,35 +34,36 @@ function App() {
       mapStyle="mapbox://styles/mapbox/streets-v9"
       mapboxAccessToken={process.env.REACT_APP_MAPBOX}
       >
-        {pins.map( (pin, i) => {
+        {pins.map( (pin) => {
           return (
-              <Marker longitude={pin.long} latitude={pin.lat} anchor="bottom" >
+            <>
+              <Marker key = {pin._id} longitude={pin.long} latitude={pin.lat} anchor="bottom" >
                   <FaMapPin className= "map-pin"/>
               </Marker>
-          )
-        })}
+              
+              <Popup key = {pin._id} longitude={pin.long} latitude={pin.lat}
+                anchor="left"
+                className = "popup"
+              >
+                <div className = "card">
+                  <span>{pin.title}</span>
+                  <span>{pin.desc}</span>
+                <div className='stars'>
+                  <span>Rating: </span>
+                  <FaStar className = "star"/>
+                  <FaStar className = "star"/>
+                  <FaStar className = "star"/>
+                  <FaStar className = "star"/>
+                  <FaStar className = "star"/>
+                </div>
+                <span>Uploaded by {pin.username} at {format(pin.createdAt)}</span>
+                </div>
+              </Popup>
+            </>
+        )})}
 
-       {/* {showPopup && (
-      <Popup longitude={-73.985428} latitude={40.748817}
-        anchor="left"
-        className = "popup"
-      >
-        <div className = "card">
-          <span>Place</span>
-          <span>Empire State Building</span>
-          <span>Review</span>
-          <span>My Summary</span>
-          <div className='stars'>
-            <span>Rating: </span>
-            <FaStar className = "star"/>
-            <FaStar className = "star"/>
-            <FaStar className = "star"/>
-            <FaStar className = "star"/>
-            <FaStar className = "star"/>
-          </div>
-          <span>Information</span>
-        </div>
-      </Popup>)}   */}
+
+      
     </Map>
     </div>
   );
